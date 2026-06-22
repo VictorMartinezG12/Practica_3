@@ -1,6 +1,6 @@
 # Detección de Objetos en Tiempo Real con Django y OpenCV
 
-Aplicativo web que captura video en tiempo real desde la cámara, lo procesa con OpenCV y detecta objetos (celulares, personas, laptops, mochilas, botellas, libros, tazas) usando un modelo YOLOv8 preentrenado, mostrando los resultados directamente sobre el video en una interfaz web.
+Aplicativo web que captura video en tiempo real desde la cámara, lo procesa con OpenCV y detecta objetos (celulares, personas, laptops, mochilas, botellas, libros, tazas) y casco de moto/ciclista (con/sin casco) usando modelos YOLOv8 preentrenados, mostrando los resultados directamente sobre el video en una interfaz web.
 
 ## Requisitos
 
@@ -53,12 +53,14 @@ Aplicativo web que captura video en tiempo real desde la cámara, lo procesa con
    python manage.py runserver
    ```
 
-8. Abrir `http://localhost:8000/` en el navegador. La primera vez se descargará automáticamente el modelo `yolov8n.pt`.
+8. Abrir `http://localhost:8000/` en el navegador. La primera vez se descargarán automáticamente los modelos `yolov8n.pt` (Ultralytics) y `keremberke/yolov8n-protective-equipment-detection` (Hugging Face).
 
 ## Funcionalidad
 
 - **Streaming de video en tiempo real** (`/video_feed/`) usando `cv2.VideoCapture` y `StreamingHttpResponse` (MJPEG).
 - **Detección de objetos** con YOLOv8 (Ultralytics), entrenado sobre el dataset COCO: detecta celulares, personas, laptops, mochilas, botellas, libros y tazas, dibujando el cuadro delimitador y la confianza sobre el video.
+- **Detección de casco de moto/ciclista** con un segundo modelo YOLOv8 especializado ([keremberke/yolov8n-protective-equipment-detection](https://huggingface.co/keremberke/yolov8n-protective-equipment-detection)), ya que el dataset COCO no incluye esa clase. Dibuja el cuadro en verde si detecta `helmet` (con casco) y en rojo si detecta `no_helmet` (sin casco).
+- Los dos modelos se alternan cada pocos frames para mantener el video fluido sin saturar la CPU.
 - **Registro de detecciones** en PostgreSQL (`detector.DetectionEvent`), con un panel en la interfaz que muestra las últimas detecciones en tiempo real.
 
 ## Estructura del proyecto

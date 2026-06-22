@@ -3,11 +3,13 @@ import time
 
 import cv2
 
-from .detection import draw_boxes, run_inference
+from .detection import draw_boxes, run_inference_coco, run_inference_helmet
 
 # Correr YOLO en cada frame satura la CPU y genera lag en el stream.
 # Se infiere cada N frames y se reutilizan las últimas cajas detectadas
-# en los frames intermedios, manteniendo el video fluido.
+# en los frames intermedios, manteniendo el video fluido. Los dos modelos
+# (objetos COCO y casco) se alternan en ciclos sucesivos para no duplicar
+# la carga de CPU por frame.
 DETECT_EVERY_N_FRAMES = 3
 FRAME_WIDTH = 640
 FRAME_HEIGHT = 480
@@ -40,7 +42,8 @@ class VideoCamera:
         self.thread.start()
 
     def _update(self):
-        last_boxes = []
+        last_coco_boxes = []
+        last_helmet_boxes = []
         frame_count = 0
         while self.running:
             success, frame = self.video.read()
@@ -49,10 +52,14 @@ class VideoCamera:
                 continue
 
             if frame_count % DETECT_EVERY_N_FRAMES == 0:
-                last_boxes = run_inference(frame)
+                cycle = frame_count // DETECT_EVERY_N_FRAMES
+                if cycle % 2 == 0:
+                    last_coco_boxes = run_inference_coco(frame)
+                else:
+                    last_helmet_boxes = run_inference_helmet(frame)
             frame_count += 1
 
-            frame = draw_boxes(frame, last_boxes)
+            frame = draw_boxes(frame, last_coco_boxes + last_helmet_boxes)
             ok, jpeg = cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, JPEG_QUALITY])
             if ok:
                 with self.frame_lock:
