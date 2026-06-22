@@ -16,6 +16,10 @@ TARGET_CLASSES = {
 _last_saved = {}
 _THROTTLE_SECONDS = 1.0
 
+# Tamaño reducido para la inferencia: acelera YOLO en CPU sin perder
+# demasiada precisión para objetos cercanos a la cámara.
+INFERENCE_SIZE = 320
+
 
 def get_model():
     global _model
@@ -33,10 +37,13 @@ def _maybe_save_event(label, confidence):
         DetectionEvent.objects.create(objeto=label, confianza=confidence)
 
 
-def detect_objects(frame):
+def run_inference(frame):
+    """Corre YOLO sobre el frame y devuelve la lista de cajas detectadas
+    (sin dibujarlas), para poder reutilizarlas en frames intermedios."""
     model = get_model()
-    results = model.predict(frame, verbose=False)[0]
+    results = model.predict(frame, imgsz=INFERENCE_SIZE, verbose=False)[0]
 
+    boxes = []
     for box in results.boxes:
         cls_id = int(box.cls[0])
         label = model.names[cls_id]
@@ -44,12 +51,16 @@ def detect_objects(frame):
             continue
         confidence = float(box.conf[0])
         x1, y1, x2, y2 = map(int, box.xyxy[0])
+        boxes.append((label, confidence, x1, y1, x2, y2))
+        _maybe_save_event(label, confidence)
 
+    return boxes
+
+
+def draw_boxes(frame, boxes):
+    for label, confidence, x1, y1, x2, y2 in boxes:
         cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
         text = f"{label} {confidence:.2f}"
         cv2.putText(frame, text, (x1, max(y1 - 10, 0)),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
-
-        _maybe_save_event(label, confidence)
-
     return frame
