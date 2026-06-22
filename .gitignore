@@ -1,0 +1,21 @@
+# Entorno virtual
+env/
+venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Django
+db.sqlite3
+staticfiles/
+
+# Variables de entorno (contiene credenciales)
+.env
+
+# Modelo YOLO descargado en tiempo de ejecución
+yolov8n.pt
+
+# IDE
+.idea/
