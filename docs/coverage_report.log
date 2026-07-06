@@ -1,0 +1,10 @@
+Name                    Stmts   Miss  Cover   Missing
+-----------------------------------------------------
+detector/__init__.py        0      0   100%
+detector/camera.py         53      0   100%
+detector/detection.py      59      9    85%   40-43, 48-52
+detector/models.py          9      1    89%   13
+detector/urls.py            3      0   100%
+detector/views.py          21      2    90%   18-19
+-----------------------------------------------------
+TOTAL                     145     12    92%

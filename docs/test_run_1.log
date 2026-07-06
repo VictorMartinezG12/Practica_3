@@ -1,0 +1,71 @@
+Creating test database for alias 'default' ('test_deteccion_cv')...
+Found 28 test(s).
+Operations to perform:
+  Synchronize unmigrated apps: messages, staticfiles
+  Apply all migrations: admin, auth, contenttypes, detector, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying detector.0001_initial... OK
+  Applying sessions.0001_initial...test_alterna_coco_y_casco_cada_n_frames (detector.tests.CameraUnitTests.test_alterna_coco_y_casco_cada_n_frames)
+Cada DETECT_EVERY_N_FRAMES se debe alternar entre modelo COCO y de casco. ... ok
+test_es_singleton (detector.tests.CameraUnitTests.test_es_singleton) ... ok
+test_get_frame_devuelve_jpeg_tras_procesar (detector.tests.CameraUnitTests.test_get_frame_devuelve_jpeg_tras_procesar) ... ok
+test_get_frame_none_antes_de_procesar (detector.tests.CameraUnitTests.test_get_frame_none_antes_de_procesar) ... ok
+test_draw_boxes_no_falla_y_conserva_dimensiones (detector.tests.DetectionUnitTests.test_draw_boxes_no_falla_y_conserva_dimensiones) ... ok
+test_draw_boxes_usa_rojo_para_no_helmet (detector.tests.DetectionUnitTests.test_draw_boxes_usa_rojo_para_no_helmet) ... ok
+test_draw_boxes_usa_verde_por_defecto (detector.tests.DetectionUnitTests.test_draw_boxes_usa_verde_por_defecto) ... ok
+test_maybe_save_event_aplica_throttle (detector.tests.DetectionUnitTests.test_maybe_save_event_aplica_throttle)
+Dos eventos del mismo objeto dentro de la ventana de throttle -> 1 solo registro. ... ok
+test_maybe_save_event_crea_un_registro (detector.tests.DetectionUnitTests.test_maybe_save_event_crea_un_registro) ... ok
+test_maybe_save_event_no_comparte_throttle_entre_objetos (detector.tests.DetectionUnitTests.test_maybe_save_event_no_comparte_throttle_entre_objetos) ... ok
+test_maybe_save_event_permite_nuevo_registro_tras_throttle (detector.tests.DetectionUnitTests.test_maybe_save_event_permite_nuevo_registro_tras_throttle) ... ok
+test_run_devuelve_coordenadas_y_confianza_correctas (detector.tests.DetectionUnitTests.test_run_devuelve_coordenadas_y_confianza_correctas) ... ok
+test_run_dispara_guardado_de_evento_por_deteccion (detector.tests.DetectionUnitTests.test_run_dispara_guardado_de_evento_por_deteccion) ... ok
+test_run_filtra_solo_las_clases_objetivo (detector.tests.DetectionUnitTests.test_run_filtra_solo_las_clases_objetivo)
+_run debe descartar detecciones cuya clase no esté en target_classes. ... ok
+test_run_inference_coco_usa_clases_coco (detector.tests.DetectionUnitTests.test_run_inference_coco_usa_clases_coco) ... ok
+test_run_inference_helmet_usa_clases_de_casco (detector.tests.DetectionUnitTests.test_run_inference_helmet_usa_clases_de_casco) ... ok
+test_run_invoca_predict_con_tamano_de_inferencia_reducido (detector.tests.DetectionUnitTests.test_run_invoca_predict_con_tamano_de_inferencia_reducido)
+El tamaño de imagen usado en predict debe ser el configurado (rendimiento). ... ok
+test_run_sin_detecciones_devuelve_lista_vacia (detector.tests.DetectionUnitTests.test_run_sin_detecciones_devuelve_lista_vacia) ... ok
+test_caso_de_uso_deteccion_en_video (detector.tests.FunctionalFlowTests.test_caso_de_uso_deteccion_en_video)
+El usuario recibe frames del video con las detecciones dibujadas. ... ok
+test_caso_de_uso_inicio_de_la_aplicacion (detector.tests.FunctionalFlowTests.test_caso_de_uso_inicio_de_la_aplicacion)
+El usuario abre la app y recibe la página principal con el stream enlazado. ... ok
+test_caso_de_uso_visualizacion_de_detecciones_en_interfaz (detector.tests.FunctionalFlowTests.test_caso_de_uso_visualizacion_de_detecciones_en_interfaz)
+Tras generarse detecciones, la interfaz debe poder listarlas vía la API. ... ok
+test_flujo_completo_de_uso (detector.tests.FunctionalFlowTests.test_flujo_completo_de_uso)
+Recorre inicio -> stream de video -> panel de detecciones, en una sola sesión. ... ok
+test_index_incluye_el_tag_de_video (detector.tests.ViewsIntegrationTests.test_index_incluye_el_tag_de_video) ... ok
+test_index_responde_200_y_usa_el_template_esperado (detector.tests.ViewsIntegrationTests.test_index_responde_200_y_usa_el_template_esperado) ... ok
+test_latest_detections_devuelve_json_vacio_sin_eventos (detector.tests.ViewsIntegrationTests.test_latest_detections_devuelve_json_vacio_sin_eventos) ... ok
+test_latest_detections_devuelve_los_eventos_mas_recientes_primero (detector.tests.ViewsIntegrationTests.test_latest_detections_devuelve_los_eventos_mas_recientes_primero) ... ok
+test_latest_detections_limita_a_15_resultados (detector.tests.ViewsIntegrationTests.test_latest_detections_limita_a_15_resultados) ... ok
+test_video_feed_responde_stream_multipart (detector.tests.ViewsIntegrationTests.test_video_feed_responde_stream_multipart) ... ok
+
+----------------------------------------------------------------------
+Ran 28 tests in 0.184s
+
+OK
+Destroying test database for alias 'default' ('test_deteccion_cv')...
+ OK
+System check identified no issues (0 silenced).

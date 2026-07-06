@@ -19,3 +19,6 @@ yolov8n.pt
 
 # IDE
 .idea/
+
+# Cobertura de pruebas
+.coverage
